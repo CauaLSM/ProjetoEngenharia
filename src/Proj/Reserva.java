@@ -6,6 +6,8 @@ public class Reserva {
 
     private String tituloLivro;
     private LocalDateTime dataEmprestimo;
+    
+    private aleatorio;
 
     public Reserva(String tituloLivro) {
         this.tituloLivro = tituloLivro;
