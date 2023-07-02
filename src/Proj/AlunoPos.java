@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class AlunoPos extends Usuarios {
 
     private int codigo;
@@ -11,17 +15,17 @@ public class AlunoPos extends Usuarios {
     private String tipo = "Aluno Pós-Graduação";
     private int tempoDeEmprestimo = 4;
     private int limiteDeEmprestimo = 4;
-    private State estado;
+    private Comportamento comportamento;
     private int numReservas;
     private int numEmprestimos;
-    private final ArrayList<Emprestimo> emprestimosCorrentes = new ArrayList<Emprestimo>();
-    private final ArrayList<Emprestimo> emprestimosPassados = new ArrayList<Emprestimo>();
-    private final ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+    private final ArrayList<Emprestimo> emprestimosCorrentes = new ArrayList<>();
+    private final ArrayList<Emprestimo> emprestimosPassados = new ArrayList<>();
+    private final ArrayList<Reserva> reservas = new ArrayList<>();
 
     public AlunoPos(int codigo, String nome) {
         this.codigo = codigo;
         this.nome = nome;
-        this.estado = new StateNormal(this);
+        this.comportamento = new ComportamentoNormal(this);
     }
 
     public int getTempoDeEmprestimo() {
@@ -36,37 +40,32 @@ public class AlunoPos extends Usuarios {
         this.limiteDeEmprestimo = limiteDeEmprestimo;
     }
 
-    public State getEstado() {
-        return estado;
+    public Comportamento getComportamento() {
+        return comportamento;
     }
 
-    @Override
-    public void setEstado(State estado) {
-        this.estado = estado;
+    public void setComportamento(Comportamento comportamento) {
+        this.comportamento = comportamento;
     }
 
-    public void changeStatus() {
-        estado.changeState();
+    public void mudarComportamento() {
+        comportamento.mudarComportamento();
     }
 
-    public String getStateName() {
-        return this.estado.getNome();
+    public String getComportamentoNome() {
+        return this.comportamento.getNome();
     }
 
-    public void emprestimoBemSucedido(String tituloLivro, LocalDateTime dataEmprestimo, LocalDateTime dataDevolucao) { //Seção 3.5.b parte 1
-        //Precisa add um objeto no Array de Histórico de Empréstimos que contenha título, data de empréstimo, status(finalizado ou em curso),
-        //data devolucao (realizada ou prevista)
+    public void emprestimoBemSucedido(String tituloLivro, LocalDateTime dataEmprestimo, LocalDateTime dataDevolucao) {
         emprestimosCorrentes.add(new Emprestimo(tituloLivro, dataEmprestimo, dataDevolucao));
         numEmprestimos++;
 
-        //Tem que add no numEmprestimos também
-
-        //Tem que lembrar que, quando a DataDevolução passar e o livro ainda não tiver sido devolvido, tem que ativar o Estado.setState("Devedor")
+        if (Objects.equals(getComportamentoNome(), "Devedor")) {
+            mudarComportamento();
+        }
     }
 
-    public void reservaBemSucedida(String tituloLivro) { //Seção 3.5.b parte 2
-        //Precisa add um objeto no Array de Reservas que contenha tanto o título que tá sendo passado quanto a data atual
-        //a data atual deve vir de um método estático que provavelmente vem da
+    public void reservaBemSucedida(String tituloLivro) {
         reservas.add(new Reserva(tituloLivro));
         numReservas++;
     }
@@ -74,17 +73,16 @@ public class AlunoPos extends Usuarios {
     public void livroDevolvido(Exemplares livro) {
         String titulo = livro.getDono().getTitulo();
 
-        for(Emprestimo e : emprestimosCorrentes) {
-            if(Objects.equals(titulo, e.getTituloLivro())) {
-
-                if(Objects.equals(getStateName(), "Devedor")) {
-                    changeStatus();
+        for (Emprestimo e : emprestimosCorrentes) {
+            if (Objects.equals(titulo, e.getTituloLivro())) {
+                if (Objects.equals(getComportamentoNome(), "Devedor")) {
+                    mudarComportamento();
                 }
 
-                e.changeState();
+                e.mudarComportamento();
                 emprestimosPassados.add(e);
                 emprestimosCorrentes.remove(e);
-
+                break;
             }
         }
 
@@ -92,14 +90,14 @@ public class AlunoPos extends Usuarios {
     }
 
     public void verificarDatas() {
-        if(!Objects.equals(getStateName(), "Devedor")) {
-            for(Emprestimo e : emprestimosCorrentes) {
-                if(e.getDataDevolucaoPrevista().isAfter(LocalDateTime.now())) {
-                    changeStatus();
+        if (!Objects.equals(getComportamentoNome(), "Devedor")) {
+            for (Emprestimo e : emprestimosCorrentes) {
+                if (e.getDataDevolucaoPrevista().isAfter(LocalDateTime.now())) {
+                    mudarComportamento();
+                    break;
                 }
             }
         }
-
     }
 
     public void listarEmprestimosEReservas() {
@@ -111,13 +109,12 @@ public class AlunoPos extends Usuarios {
     }
 
     public void listarEmprestimosAtuais() {
-
-        for(Emprestimo e : emprestimosCorrentes) {
+        for (Emprestimo e : emprestimosCorrentes) {
             System.out.println("Titulo: " + e.getTituloLivro());
             System.out.println("Data de Emprestimo: " + e.getDataEmprestimo());
             System.out.println("Data de Devolução Prevista: " + e.getDataDevolucaoPrevista());
-            System.out.println("Status: " + e.getStateName());
-            if(e.getDataDevolucaoRealizada() == null){
+            System.out.println("Status: " + e.getComportamentoNome());
+            if (e.getDataDevolucaoRealizada() == null) {
                 System.out.println("Data de Devolução Realizada: Ainda não Realizada");
             } else {
                 System.out.println("Data de Devolução Realizada: " + e.getDataDevolucaoRealizada() + "\n");
@@ -126,13 +123,12 @@ public class AlunoPos extends Usuarios {
     }
 
     public void listarEmprestimosPassados() {
-
-        for(Emprestimo e : emprestimosPassados) {
+        for (Emprestimo e : emprestimosPassados) {
             System.out.println("Titulo: " + e.getTituloLivro());
             System.out.println("Data de Emprestimo: " + e.getDataEmprestimo());
             System.out.println("Data de Devolução Prevista: " + e.getDataDevolucaoPrevista());
-            System.out.println("Status: " + e.getStateName());
-            if(e.getDataDevolucaoRealizada() == null){
+            System.out.println("Status: " + e.getComportamentoNome());
+            if (e.getDataDevolucaoRealizada() == null) {
                 System.out.println("Data de Devolução Realizada: Ainda não Realizada");
             } else {
                 System.out.println("Data de Devolução Realizada: " + e.getDataDevolucaoRealizada() + "\n");
@@ -141,12 +137,9 @@ public class AlunoPos extends Usuarios {
     }
 
     public void listarReservas() {
-
         for (Reserva r : reservas) {
             System.out.println("Titulo: " + r.getTituloLivro());
             System.out.println("Data de Emprestimo: " + r.getDataEmprestimo() + "\n");
         }
-
     }
-
 }

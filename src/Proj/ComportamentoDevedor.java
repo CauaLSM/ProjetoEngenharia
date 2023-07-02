@@ -3,7 +3,7 @@ package Proj;
 public class ComportamentoDevedor implements Comportamento {
 
     private Usuarios usuario;
-    private String nome = "Devedor";
+    private final String nome = "Devedor";
 
     public ComportamentoDevedor(Usuarios usuario) {
         this.usuario = usuario;
