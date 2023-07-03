@@ -122,7 +122,7 @@ public class AlunoGraduacao extends Usuarios {
         }
     }
 
-    public void listarEmprestimosPassados() {
+    public void listarEmprestimosPassados() { 
         for (Emprestimo e : emprestimosPassados) {
             System.out.println("Titulo: " + e.getTituloLivro());
             System.out.println("Data de Emprestimo: " + e.getDataEmprestimo());
