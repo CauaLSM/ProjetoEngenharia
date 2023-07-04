@@ -41,8 +41,13 @@ public class Biblioteca {
    		 if(cod == livros.get(i).getCodigo()) {
    			return livros.get(i);
    		 }
+   		 else {
+   			 System.out.println("Livro de código " + cod + " não existe no sistema.\n");
+   			return null;
+   		 }
    	 }
 	return null;
+	
    }
     //Seção de Empréstimo
 

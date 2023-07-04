@@ -42,15 +42,15 @@ public class Sistema {
         bib.addLivro(401, "UML Distilled: A Brief Guide to the Standard Object Modeling Language", "Addison-Wesley Professional", "Martin Fowler", "3", "2003");
 
         
-        bib.addExemplar(findLivro(100), 1);
-        bib.addExemplar(findLivro(100), 2);
-        bib.addExemplar(findLivro(101), 3);
-        bib.addExemplar(findLivro(200), 4);
-        bib.addExemplar(findLivro(201), 5);
-        bib.addExemplar(findLivro(300), 6);
-        bib.addExemplar(findLivro(300), 7);
-        bib.addExemplar(findLivro(400), 8);
-        bib.addExemplar(findLivro(400), 9);
+        bib.addExemplar(bib.identificaLivroNaLista(100), 1);
+        bib.addExemplar(bib.identificaLivroNaLista(100), 2);
+        bib.addExemplar(bib.identificaLivroNaLista(101), 3);
+        bib.addExemplar(bib.identificaLivroNaLista(200), 4);
+        bib.addExemplar(bib.identificaLivroNaLista(201), 5);
+        bib.addExemplar(bib.identificaLivroNaLista(300), 6);
+        bib.addExemplar(bib.identificaLivroNaLista(300), 7);
+        bib.addExemplar(bib.identificaLivroNaLista(400), 8);
+        bib.addExemplar(bib.identificaLivroNaLista(400), 9);
 
         verificarDatas();
     }
@@ -75,43 +75,28 @@ public class Sistema {
         return usuarioDesejado;
     }
 
-    private Livro findLivro(int codLivro) { //Acha qual o livro dado seu código
-    	  Livro livroDesejado=null;
-        for (int i=0 ; i < bib.qtdLivros() ; i++) {
-            if (bib.checaListaLivros(codLivro)) {
-                livroDesejado = bib.identificaLivroNaLista(codLivro);
-                break;
-            }
-        }
-
-        if (livroDesejado==null) {
-            System.out.println("Livro de código " + codLivro + " não existe no sistema.\n");
-        }
-
-        return livroDesejado;
-    }
 
     public void emprestimo(int codUsuario, int codLivro) { //3.1
         Usuario usuario = findUser(codUsuario);
-        Livro livro = findLivro(codLivro);
+        Livro livro = bib.identificaLivroNaLista(codLivro);
         if (!(usuario==null) && !(livro==null)) bib.emprestar(usuario, livro); // !(x||y) === !x && !y
         //Caso não cumpra, o programa devolve controle pro Invoker, note que o erro já foi enviado pelo findUser ou findLivro
     }
 
     public void devolucao(int codUsuario, int codLivro) { //3.2
         Usuario usuario = findUser(codUsuario);
-        Livro livro = findLivro(codLivro);
+        Livro livro = bib.identificaLivroNaLista(codLivro);
         if (!(usuario==null) && !(livro==null)) bib.devolucao(usuario, livro);
     }
 
     public void reserva(int codUsuario, int codLivro) { //3.3
         Usuario usuario = findUser(codUsuario);
-        Livro livro = findLivro(codLivro);
+        Livro livro = bib.identificaLivroNaLista(codLivro);
         if (!(usuario==null) && !(livro==null)) bib.reserva(usuario, livro);
     }
 
     public void consultarLivro(int codLivro) { //3.5.a
-        Livro livro = findLivro(codLivro);
+        Livro livro = bib.identificaLivroNaLista(codLivro);
         if (!(livro==null)) bib.checarLivro(livro);
     }
 
