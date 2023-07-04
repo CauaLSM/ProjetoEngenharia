@@ -37,6 +37,8 @@ public class Biblioteca {
         listaLivros.add(new Livros(400, "Design Patterns: Elements of Reusable Object-Oriented Software", "Addison-Wesley Professional", "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides", "1", "1994"));
         listaLivros.add(new Livros(401, "UML Distilled: A Brief Guide to the Standard Object Modeling Language", "Addison-Wesley Professional", "Martin Fowler", "3", "2003"));
 
+        
+        
         new Exemplares(findLivro(100), 1);
         new Exemplares(findLivro(100), 2);
         new Exemplares(findLivro(101), 3);

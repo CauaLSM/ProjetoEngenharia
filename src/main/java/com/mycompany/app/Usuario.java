@@ -1,4 +1,4 @@
-package Projeto;
+package com.mycompany.app;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -60,6 +60,18 @@ public abstract class Usuario {
 
 	public void setDevedor(boolean devedor) {
 		this.devedor = devedor;
+	}
+
+	public ArrayList<Emprestimo> getEmprestimosCorrentes() {
+		return emprestimosCorrentes;
+	}
+
+	public ArrayList<Emprestimo> getEmprestimosPassados() {
+		return emprestimosPassados;
+	}
+
+	public ArrayList<Reserva> getReservas() {
+		return reservas;
 	}
     
 }

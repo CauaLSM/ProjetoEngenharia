@@ -5,22 +5,58 @@ import java.util.List;
 
 public class Biblioteca {
 
-    private List<Usuario> reservantes = new ArrayList<Usuario>();
+  
     private List<Livro> livros = new ArrayList<Livro>();
     
+    public void addLivro(int codigo, String titulo, String editora, String autores, String edicao, String anoPublicacao) {
+        livros.add(new Livro(codigo, titulo, editora, autores, edicao, anoPublicacao));
+    }
+    
+    @SuppressWarnings("null")
+	public void addExemplar(Livro livro, int cod) {
+    	Exemplar exemplar = null;
+    	exemplar.setCodigo(cod);
+        livro.listaExemplares.add(exemplar);
+    }
+    
+    public int qtdLivros() {
+    	int qtd = 0;
+    	 for (int i=0 ; i < livros.size() ; i++ ) {
+    		 qtd++;
+    	 }
+    	 return qtd;
+    }
+    
+    public boolean checaListaLivros(int cod) {
+    	 for (int i=0 ; i < livros.size() ; i++ ) {
+    		 if(cod == livros.get(i).getCodigo()) {
+    			return true;
+    		 }
+    	 }
+    	 return false;
+    }
+    
+    public Livro identificaLivroNaLista(int cod) {
+   	 for (int i=0 ; i < livros.size() ; i++ ) {
+   		 if(cod == livros.get(i).getCodigo()) {
+   			return livros.get(i);
+   		 }
+   	 }
+	return null;
+   }
     //Seção de Empréstimo
 
     private void emprestimoDeuCerto(Livro livro, Usuario usuario, boolean reservado, int exemplarNaLista) { //Shortcut para evitar repetição de código no método emprestar()
         if (reservado) { // se usuario tiver reservado o exemplar do livro, retira ele da lista de reservados
             livro.setNumReservas(livro.getNumReservas() - 1);
-            int i = reservantes.indexOf(usuario);
-            if (i>=0) reservantes.remove(usuario);
+            int i = livro.reservantes.indexOf(usuario);
+            if (i>=0) livro.reservantes.remove(usuario);
         }
         livro.setNumEmprestados(livro.getNumEmprestados() + 1);
         livro.setUsuarioEmprestado(usuario);
         livro.listaExemplares.get(exemplarNaLista).setDataEmprestimo(java.time.LocalDateTime.now());
         livro.listaExemplares.get(exemplarNaLista).setDataDevolucao(java.time.LocalDateTime.now().plusDays(usuario.getTempoDeEmprestimo()));
-        usuario.emprestimoBemSucedido(titulo, livro.getDataEmprestimo() , livro.getDataDevolucao());
+        usuario.emprestimoBemSucedido(livro.getTitulo(), livro.listaExemplares.get(exemplarNaLista).getDataEmprestimo() , livro.listaExemplares.get(exemplarNaLista).getDataDevolucao());
     }
     
     public boolean emprestar(Usuario usuario, Livro livro) { //Seção 3.1
@@ -58,14 +94,14 @@ public class Biblioteca {
 	        //Descobrir se o usuário é reservante desse livro ou não
 	        boolean reservado = false;
 	        for (int i=0 ; i < livro.listaExemplares.size() ; i++) {
-	            if (reservantes.get(i)==usuario) {
+	            if (livro.reservantes.get(i)==usuario) {
 	                reservado = true;
 	                break;
 	            }
 	        }
 	
-	        if (usuario.emprestimoTeste.podeEmprestar(usuario, this, exemplar, jaEmprestado, disponibilidade, reservado)) {
-	            emprestimoDeuCerto(exemplar, usuario, reservado);
+	        if (usuario.emprestimoTeste.podeEmprestar(usuario, exemplarDisp, jaEmprestado, disponivel, reservado)) {
+	            emprestimoDeuCerto(livro, usuario, reservado, exemplarNaLista);
 	            return true;
 	        }
 	        return false;
@@ -75,21 +111,21 @@ public class Biblioteca {
 
     //Seção de Devolução
 
-    public boolean devolucao(Usuarios usuario) { //Seção 3.2 - Importante fazer a Biblioteca buscar o Usuário e enviar ele pra essa função
+    public boolean devolucao(Usuario usuario, Livro livro) { //Seção 3.2 - Importante fazer a Biblioteca buscar o Usuário e enviar ele pra essa função
 
-        for (int i=0 ; i < listaExemplares.size() ; i++) { //Busca nos exemplares o usuario em questão
+        for (int i=0 ; i < livro.listaExemplares.size() ; i++) { //Busca nos exemplares o usuario em questão
 
             //Caso de Sucesso da Devolução
-            if (listaExemplares.get(i).getUsuarioEmprestado() == usuario) {
-                listaExemplares.get(i).getStatus().changeState();
-                listaExemplares.get(i).setUsuarioEmprestado(null);
-                listaExemplares.get(i).setDataEmprestimo(java.time.LocalDateTime.now());
-                listaExemplares.get(i).setDataDevolucao(java.time.LocalDateTime.now().plusDays(usuario.getTempoDeEmprestimo()));
-                numEmprestados--;
+            if (livro.listaExemplares.get(i).getUsuarioEmprestado() == usuario) {
+                livro.listaExemplares.get(i).setDisp(true);
+                livro.listaExemplares.get(i).setUsuarioEmprestado(null);
+                livro.listaExemplares.get(i).setDataEmprestimo(java.time.LocalDateTime.now());
+                livro.listaExemplares.get(i).setDataDevolucao(java.time.LocalDateTime.now().plusDays(usuario.getTempoDeEmprestimo()));
+                livro.setNumEmprestados(livro.getNumEmprestados() - 1);
 
-                usuario.livroDevolvido(listaExemplares.get(i)); //Passar pro usuario, por algum método dele, as informações que precisam para atualizar no array de histórico de empréstimos e tal
+                usuario.livroDevolvido(livro.listaExemplares.get(i)); //Passar pro usuario, por algum método dele, as informações que precisam para atualizar no array de histórico de empréstimos e tal
 
-                System.out.println("Devolução do livro " + titulo + " por " + usuario.getNome() + " realizada com sucesso.\n");
+                System.out.println("Devolução do livro " + livro.getTitulo() + " por " + usuario.getNome() + " realizada com sucesso.\n");
                 return true;
 
             }
@@ -97,7 +133,7 @@ public class Biblioteca {
         }
 
         //Caso de Falha da Devolução
-        System.out.println("Devolução do livro " + titulo + " por " + usuario.getNome() + " não pôde ser efetivada por usuário não possuir uma cópia do livro\n");
+        System.out.println("Devolução do livro " + livro.getTitulo() + " por " + usuario.getNome() + " não pôde ser efetivada por usuário não possuir uma cópia do livro\n");
         return false;
 
     }
@@ -106,19 +142,18 @@ public class Biblioteca {
 
     //Seção de Reserva
 
-    public boolean reserva(Usuarios usuario) { //Seção 3.3 - Importante fazer a Biblioteca buscar o Usuário e enviar ele pra essa função
+    public boolean reserva(Usuario usuario, Livro livro) { //Seção 3.3 - Importante fazer a Biblioteca buscar o Usuário e enviar ele pra essa função
 
         //Caso de Falha na Reserva
         if(usuario.getNumReservas()>=3) {
-            System.out.println("Livro " + titulo + "não pôde ser reservado por " + usuario.getNome() + " pois o número de reservas simultâneas do usuário já alcançou seu limite.\n");
+            System.out.println("Livro " + livro.getTitulo() + "não pôde ser reservado por " + usuario.getNome() + " pois o número de reservas simultâneas do usuário já alcançou seu limite.\n");
             return false;
         }
         //Caso de Sucesso na Reserva
         else {
-            System.out.println("Livro " + titulo + "foi reservado com sucesso por " + usuario.getNome() + ".\n");
-            numReservas++;
-            if(numReservas==3) notifyObservers(); //Passou de 2 para 3 reservas
-            usuario.reservaBemSucedida(getTitulo());
+            System.out.println("Livro " + livro.getTitulo() + "foi reservado com sucesso por " + usuario.getNome() + ".\n");
+            livro.setNumReservas(livro.getNumReservas() + 1);
+            usuario.reservaBemSucedida(livro.getTitulo());
             return true;
         }
 
@@ -128,20 +163,20 @@ public class Biblioteca {
 
     //Checar Livro pelo comando "liv"
 
-    public void checarLivro() { //Seção 3.5.a
+    public void checarLivro(Livro livro) { //Seção 3.5.a
 
         //Listar o título e o número de reservas
-        System.out.println("Título: " + titulo + "\nNúmero de Reservas: " + numReservas + "\n");
+        System.out.println("Título: " + livro.getTitulo() + "\nNúmero de Reservas: " + livro.getNumReservas() + "\n");
 
         //Listar o nome de todos reservantes
-        for (int i=0 ; i < reservantes.size() ; i++) {
-            System.out.println("Nome reservante: " + reservantes.get(i).getNome() + "\n");
+        for (int i=0 ; i < livro.reservantes.size() ; i++) {
+            System.out.println("Nome reservante: " + livro.reservantes.get(i).getNome() + "\n");
         }
 
         //Listando informações sobre cada exemplar e finalizando a computação do comando
-        for (int i=0 ; i < listaExemplares.size() ; i++) {
-            System.out.println("Informações de Exemplar: " + listaExemplares.get(i).getCodigo() + " - " + listaExemplares.get(i).getStatus());
-            if (listaExemplares.get(i).getStatus().getNome().equals("Emprestado")) System.out.println(" - " + listaExemplares.get(i).getEmprestado() + listaExemplares.get(i).getDataEmprestimo() + listaExemplares.get(i).getDataDevolucao() +"\n");
+        for (int i=0 ; i < livro.listaExemplares.size() ; i++) {
+            System.out.println("Informações de Exemplar: " + livro.listaExemplares.get(i).getCodigo() + " - " + livro.listaExemplares.get(i).isDisp());
+            if (!livro.listaExemplares.get(i).isDisp()) System.out.println(" - " + livro.listaExemplares.get(i).getEmprestado() + livro.listaExemplares.get(i).getDataEmprestimo() + livro.listaExemplares.get(i).getDataDevolucao() +"\n");
             else System.out.println("\n");
         }
 

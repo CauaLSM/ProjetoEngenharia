@@ -1,4 +1,4 @@
-package Projeto;
+package com.mycompany.app;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,8 @@ public class Livro {
     private String edicao;
     private String anoPublicacao;
     public List<Exemplar> listaExemplares = new ArrayList<Exemplar>();
-    private Usuario usuarioEmprestado;
+    public List<Usuario> reservantes = new ArrayList<Usuario>();
+
 
     public Livro(int codigo, String titulo, String editora, String autores, String edicao, String anoPublicacao) {
         this.codigo = codigo;
@@ -24,10 +25,7 @@ public class Livro {
         this.anoPublicacao = anoPublicacao;
     }
     
-    public void addExemplar(Exemplar exemplar) {
-        listaExemplares.add(exemplar);
-    }
-    
+  
     public boolean temExemplarDisp(){
     	for(Exemplar exemplar : listaExemplares) {
     		if(exemplar.isDisp()) {
@@ -60,10 +58,10 @@ public class Livro {
 	public void setNumEmprestados(int numEmprestados) {
 		this.numEmprestados = numEmprestados;
 	}
-
 	public void setUsuarioEmprestado(Usuario usuarioEmprestado) {
-		this.usuarioEmprestado = usuarioEmprestado;
-		
+		 for (int i=0 ; i < listaExemplares.size() ; i++ ) {
+			 if( listaExemplares.get(i).isDisp())
+			 listaExemplares.get(i).setUsuarioEmprestado(usuarioEmprestado);
+		 }
 	}
-
 }

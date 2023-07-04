@@ -11,16 +11,14 @@ public class Exemplar {
     private LocalDateTime dataDevolucao;
 
     public Exemplar(int codigo) {
-        this.codigo = codigo;
+        this.setCodigo(codigo);
     }
 
    public String getEmprestado() {
         return usuarioEmprestado.getNome();
-   }
+   } 
 
-    public int getCodigo() {
-        return codigo;
-    }
+  
 
 	public boolean isDisp() {
 		return isDisp;
@@ -29,10 +27,6 @@ public class Exemplar {
 	public void setDisp(boolean isDisp) {
 		this.isDisp = isDisp;
 	}
-	
-    public Usuario getUsuarioEmprestado() {
-        return usuarioEmprestado;
-    }
 
     public LocalDateTime getDataDevolucao() {
         return dataDevolucao;
@@ -49,6 +43,22 @@ public class Exemplar {
     public void setDataEmprestimo(LocalDateTime dataEmprestimo) {
         this.dataEmprestimo = dataEmprestimo;
     }
+
+	public Usuario getUsuarioEmprestado() {
+		return usuarioEmprestado;
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public void setUsuarioEmprestado(Usuario usuarioEmprestado) {
+		this.usuarioEmprestado = usuarioEmprestado;
+	}
 
  
 }
