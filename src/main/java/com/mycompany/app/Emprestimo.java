@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 public class Emprestimo {
     private String tituloLivro;
+    private boolean emProcesso = false;
     private LocalDateTime dataEmprestimo;
     private LocalDateTime dataDevolucaoPrevista;
     private LocalDateTime dataDevolucaoRealizada;
@@ -34,4 +35,12 @@ public class Emprestimo {
     public void setDataDevolucaoRealizada() {
         this.dataDevolucaoRealizada = LocalDateTime.now();
     }
+
+	public boolean isEmProcesso() {
+		return emProcesso;
+	}
+
+	public void setEmProcesso(boolean emProcesso) {
+		this.emProcesso = emProcesso;
+	}
 }

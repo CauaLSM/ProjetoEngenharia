@@ -12,7 +12,7 @@ public class ComandoConsultaLivro implements Comandos{
 
 	@Override
 	public void execute() {
-	    this.codLiv = Integer.parseInt(Invoker.getSeconddArg());
+	    this.codLiv = Integer.parseInt(Invoker.getSecondArg());
 	    sis.consultarLivro(this.codLiv);
 	}
 }

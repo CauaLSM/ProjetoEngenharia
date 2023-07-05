@@ -43,7 +43,6 @@ public class Biblioteca {
    		 }
    		 else {
    			 System.out.println("Livro de código " + cod + " não existe no sistema.\n");
-   			return null;
    		 }
    	 }
 	return null;
@@ -58,6 +57,7 @@ public class Biblioteca {
             if (i>=0) livro.reservantes.remove(usuario);
         }
         livro.setNumEmprestados(livro.getNumEmprestados() + 1);
+        livro.MudarDispExemplar();
         livro.setUsuarioEmprestado(usuario);
         livro.listaExemplares.get(exemplarNaLista).setDataEmprestimo(java.time.LocalDateTime.now());
         livro.listaExemplares.get(exemplarNaLista).setDataDevolucao(java.time.LocalDateTime.now().plusDays(usuario.getTempoDeEmprestimo()));

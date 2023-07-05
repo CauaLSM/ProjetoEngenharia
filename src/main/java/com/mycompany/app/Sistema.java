@@ -26,10 +26,10 @@ public class Sistema {
 
     private void inicializarListas() { //Instancia todos os elementos de exemplo
 
-        listaUsuarios.add(new AlunoGraduacao( 123, "João da Silva"));
-        listaUsuarios.add(new AlunoGraduacao(456, "Luiz Fernando Rodrigues"));
-        listaUsuarios.add(new AlunoPos(789, "Pedro Paulo"));
-        listaUsuarios.add(new Professor(100, "Carlos Lucena"));
+        listaUsuarios.add(new UsuarioAlunoGrad( 123, "João da Silva"));
+        listaUsuarios.add(new UsuarioAlunoGrad(456, "Luiz Fernando Rodrigues"));
+        listaUsuarios.add(new UsuarioAlunoPos(789, "Pedro Paulo"));
+        listaUsuarios.add(new UsuarioProfessor(100, "Carlos Lucena"));
 
         
         bib.addLivro(100, "Engenharia de Software", "AddisonWesley", "Ian Sommervile", "6", "2000");

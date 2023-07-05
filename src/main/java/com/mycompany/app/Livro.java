@@ -34,6 +34,14 @@ public class Livro {
     	}
 		return false;
     }
+    
+    public void MudarDispExemplar(){
+    	for(Exemplar exemplar : listaExemplares) {
+    		if(exemplar.isDisp()) {
+    			exemplar.setDisp(false);
+    		}
+    	}
+    }
 
     public String getTitulo() {
         return titulo;

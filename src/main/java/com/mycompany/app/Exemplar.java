@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class Exemplar {
 
     private int codigo;
+    private String titulo;
     private boolean isDisp = true;
     private Usuario usuarioEmprestado;
     private LocalDateTime dataEmprestimo;
@@ -58,6 +59,14 @@ public class Exemplar {
 
 	public void setUsuarioEmprestado(Usuario usuarioEmprestado) {
 		this.usuarioEmprestado = usuarioEmprestado;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
  
