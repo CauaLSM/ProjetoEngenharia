@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class UsuarioProfessor implements Usuario{
+public class UsuarioProfessor extends Usuario{
 	private int codigo;
     private String nome;
     private final String tipo = "Professor";
@@ -144,6 +144,11 @@ public class UsuarioProfessor implements Usuario{
             System.out.println("Data de Emprestimo: " + r.getDataEmprestimo() + "\n");
         }
     }
+
+	@Override
+	public int getLimiteDeEmprestimo() {
+		return 0;
+	}
 
 
 

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class UsuarioAlunoGrad implements Usuario{
+public class UsuarioAlunoGrad extends Usuario{
 	private int codigo;
     private String nome;
     private final String tipo = "Aluno Graduação";

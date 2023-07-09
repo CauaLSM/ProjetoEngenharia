@@ -105,7 +105,7 @@ public class Biblioteca {
 	            }
 	        }
 	
-	        if (usuario.emprestimoTeste.podeEmprestar(usuario, exemplarDisp, jaEmprestado, disponivel, reservado)) {
+	        if (usuario.condicoes.podeEmprestar(usuario,livro, exemplarDisp, jaEmprestado, disponivel, reservado)) {
 	            emprestimoDeuCerto(livro, usuario, reservado, exemplarNaLista);
 	            return true;
 	        }

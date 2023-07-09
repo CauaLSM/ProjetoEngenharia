@@ -2,33 +2,39 @@ package com.mycompany.app;
 
 import java.time.LocalDateTime;
 
-public interface Usuario {
+
+
+public abstract class Usuario {
 	
-	public String getTipo();
+	public CondicoesEmprestimo condicoes;
+	 
+	public abstract String getTipo();
 
-	public int getCodigo();
+	public abstract int getCodigo();
 
-    public int getNumEmprestimos();
+    public abstract int getNumEmprestimos();
 
-    public int getTempoDeEmprestimo();
+    public abstract int getTempoDeEmprestimo();
     
-    public int getNumReservas();
+    public abstract int getNumReservas();
 
-	public String getNome();
+	public abstract String getNome();
 	
-	public void emprestimoBemSucedido(String tituloLivro, LocalDateTime dataEmprestimo, LocalDateTime dataDevolucao);
+    public abstract int getLimiteDeEmprestimo();
+	
+	public abstract void emprestimoBemSucedido(String tituloLivro, LocalDateTime dataEmprestimo, LocalDateTime dataDevolucao);
 
-	public void reservaBemSucedida(String tituloLivro);
+	public abstract void reservaBemSucedida(String tituloLivro);
 
-    public void livroDevolvido(Exemplar exemplar);
+    public abstract void livroDevolvido(Exemplar exemplar);
 
-	public void verificarDatas();
+	public abstract void verificarDatas();
 
-    public void listarEmprestimosEReservas();
+    public abstract void listarEmprestimosEReservas();
 
-	public boolean isDevedor();
+	public abstract boolean isDevedor();
 
-	public void setDevedor(boolean devedor);
+	public abstract void setDevedor(boolean devedor);
 
 }
 
