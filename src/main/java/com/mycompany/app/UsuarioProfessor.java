@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class UsuarioProfessor extends Usuario{
+public class UsuarioProfessor extends Usuario implements Observadores{
 	private int codigo;
     private String nome;
     private final String tipo = "Professor";
@@ -149,6 +149,11 @@ public class UsuarioProfessor extends Usuario{
 	public int getLimiteDeEmprestimo() {
 		return 0;
 	}
+
+	@Override
+    public void update(Livro livros) {
+        setNotificacao(getNotificacao() + 1);
+    }
 
 
 

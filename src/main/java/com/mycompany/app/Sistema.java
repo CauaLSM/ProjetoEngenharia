@@ -88,6 +88,12 @@ public class Sistema {
         Livro livro = bib.identificaLivroNaLista(codLivro);
         if (!(usuario==null) && !(livro==null)) bib.devolucao(usuario, livro);
     }
+    
+    public void observar(int codUsuario, int codLivro) { //3.4
+        UsuarioProfessor usuario = (UsuarioProfessor) findUser(codUsuario); //Aqui será Funcionarios mais pra frente
+        Livro livro = bib.identificaLivroNaLista(codLivro);
+        if (!(usuario==null) && !(livro==null)) livro.registraObserver(usuario);
+    }
 
     public void reserva(int codUsuario, int codLivro) { //3.3
         Usuario usuario = findUser(codUsuario);
@@ -98,6 +104,12 @@ public class Sistema {
     public void consultarLivro(int codLivro) { //3.5.a
         Livro livro = bib.identificaLivroNaLista(codLivro);
         if (!(livro==null)) bib.checarLivro(livro);
+    }
+    
+    public void consultarNotificacao (int codUsuario) { //3.5.c
+        Usuario usuario = findUser(codUsuario);
+        if (!(usuario==null)) usuario.getNNotificaoes();
+        //Ativar aqui o método de usuário que vai retornar esse dado de quantas vezes ele foi notificado sobre algum livro que observa - descrito na seção 3.5.c do trabalho
     }
 
     public void consultarUsuario(int codUsuario) { //3.5.b

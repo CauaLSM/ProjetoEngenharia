@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 
 
 
-public abstract class Usuario {
+public abstract class Usuario{
 	
 	public CondicoesEmprestimo condicoes;
+    private int notificacao;
+
 	 
 	public abstract String getTipo();
 
@@ -35,6 +37,18 @@ public abstract class Usuario {
 	public abstract boolean isDevedor();
 
 	public abstract void setDevedor(boolean devedor);
+
+	public int getNotificacao() {
+		return notificacao;
+	}
+
+	public void setNotificacao(int notificacao) {
+		this.notificacao = notificacao;
+	}
+	
+	public void getNNotificaoes() {
+        System.out.println("Usuário " + getNome() + " foi notificado um total de " + getNotificacao() + " vezes.\n");
+    }
 
 }
 

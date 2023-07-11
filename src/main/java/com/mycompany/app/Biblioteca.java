@@ -3,10 +3,12 @@ package com.mycompany.app;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Biblioteca {
+public class Biblioteca implements Observando{
 
   
     private List<Livro> livros = new ArrayList<Livro>();
+    private List<Observadores> observadores = new ArrayList<Observadores>();
+
     
     public void addLivro(int codigo, String titulo, String editora, String autores, String edicao, String anoPublicacao) {
         livros.add(new Livro(codigo, titulo, editora, autores, edicao, anoPublicacao));
@@ -185,6 +187,22 @@ public class Biblioteca {
             else System.out.println("\n");
         }
 
+    }
+
+    public void registrarObserver(Observadores ob) { //Seção 3.4 - Biblioteca deve buscar o Usuario e tratá-lo como Observers e passar para esse método do livro
+        observadores.add(ob);
+    }
+
+    public void removerObserver(Observadores o) { //Seção 3.4 - Biblioteca deve buscar o Usuario e tratá-lo como Observers e passar para esse método do livro
+        int i = observadores.indexOf(o);
+        if (i>=0) observadores.remove(o);
+    }
+
+    public void notificarObservers() {
+        for (int i=0 ; i < observadores.size() ; i++) {
+            Observadores observer = observadores.get(i);
+            observer.update(this);
+        }
     }
 
 }

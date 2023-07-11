@@ -28,10 +28,10 @@ public class Invoker {
         comandos.put("emp", new ComandoEmprestar(sis) ); //emprestimo
         comandos.put("dev", new ComandoDevolver(sis) ); //devolução
         comandos.put("res", new ComandoReservar(sis) ); //reserva
-        //comandos.put("obs", new ObservarCommand(biblioteca) ); //observar, precisamos implementar
+        comandos.put("obs", new ObservarCommand(biblioteca) ); //observar, precisamos implementar
         comandos.put("liv", new ComandoConsultaLivro(sis) ); //listar infos do livro
         comandos.put("usu", new ComandoConsultaUsuario(sis) ); //lista de emprestimos/reservas de usuarios
-        //comandos.put("ntf", new ConsultarNotificacaoCommand(biblioteca) ); //notificar observadores, tbm.
+        comandos.put("ntf", new ConsultarNotificacaoCommand(biblioteca) ); //notificar observadores, tbm.
         comandos.put("sai", new ComandoSairDoSistema(sis) ); //sair do sistema
 
         userInput();
