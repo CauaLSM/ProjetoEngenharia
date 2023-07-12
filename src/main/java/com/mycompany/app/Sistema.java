@@ -92,7 +92,7 @@ public class Sistema {
     public void observar(int codUsuario, int codLivro) { //3.4
         UsuarioProfessor usuario = (UsuarioProfessor) findUser(codUsuario); //Aqui será Funcionarios mais pra frente
         Livro livro = bib.identificaLivroNaLista(codLivro);
-        if (!(usuario==null) && !(livro==null)) livro.registraObserver(usuario);
+        if (!(usuario==null) && !(livro==null)) bib.registrarObserver(usuario);
     }
 
     public void reserva(int codUsuario, int codLivro) { //3.3

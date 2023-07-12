@@ -7,6 +7,6 @@ package com.mycompany.app;
 
 public class App {
     public static void main(String[] args) {
-    	 Invoker invoker = new Invoker();
+    	// Invoker invoker = new Invoker();
     }
 }

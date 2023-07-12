@@ -151,9 +151,11 @@ public class UsuarioProfessor extends Usuario implements Observadores{
 	}
 
 	@Override
-    public void update(Livro livros) {
+    public void update(Biblioteca livros) {
         setNotificacao(getNotificacao() + 1);
     }
+
+
 
 
 

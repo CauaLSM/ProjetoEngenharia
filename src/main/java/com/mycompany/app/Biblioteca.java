@@ -161,6 +161,7 @@ public class Biblioteca implements Observando{
             System.out.println("Livro " + livro.getTitulo() + "foi reservado com sucesso por " + usuario.getNome() + ".\n");
             livro.setNumReservas(livro.getNumReservas() + 1);
             usuario.reservaBemSucedida(livro.getTitulo());
+            if(livro.getNumReservas()>2) notificarObservers();
             return true;
         }
 
