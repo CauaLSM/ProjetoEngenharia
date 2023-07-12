@@ -68,9 +68,7 @@ public class Biblioteca implements Observando{
     
     public boolean emprestar(Usuario usuario, Livro livro) { //Seção 3.1
 
-        //Realizando Checagens gerais pertinentes a esta classe antes de especializar:
-
-        //Checagem se há disponibilidade e se o usuário já possui o livro em mãos. (i) e (vi)
+        
         boolean jaEmprestado = false;
     	int disponivel = 0;
     	int exemplarNaLista = 0;
@@ -79,26 +77,26 @@ public class Biblioteca implements Observando{
 
         for (int i=0 ; i < livro.listaExemplares.size() ; i++ ) {
             if (livro.listaExemplares.get(i).isDisp()) { 
-                disponivel++; //Atribuindo o Exemplar, que talvez será emprestado, a uma variável
+                disponivel++; 
                 
-                if (disponivel==1) { //Atribuindo o Exemplar, que talvez será emprestado, a uma variável
+                if (disponivel==1) { 
                     exemplarDisp = livro.listaExemplares.get(i);
                     exemplarNaLista = i;
                 }
             }
 
-            if (livro.listaExemplares.get(i).getUsuarioEmprestado() == usuario) { //Definindo que esse usuário já tem um livro desse emprestado
+            if (livro.listaExemplares.get(i).getUsuarioEmprestado() == usuario) {
                 jaEmprestado = true;
             }
         }
 
-	        //Condição de falha de Disponibilidade (i)
+	       
 	        if (disponivel==0) {
 	            System.out.println("Livro " + livro.getTitulo() + "não pode ser emprestado para " + usuario.getNome() + " por não haver mais exemplares disponíveis no momento.\n");
 	            return false;
 	        }
 	
-	        //Descobrir se o usuário é reservante desse livro ou não
+	       
 	        boolean reservado = false;
 	        for (int i=0 ; i < livro.listaExemplares.size() ; i++) {
 	            if (livro.reservantes.get(i)==usuario) {
@@ -118,9 +116,9 @@ public class Biblioteca implements Observando{
 
     //Seção de Devolução
 
-    public boolean devolucao(Usuario usuario, Livro livro) { //Seção 3.2 - Importante fazer a Biblioteca buscar o Usuário e enviar ele pra essa função
+    public boolean devolucao(Usuario usuario, Livro livro) { 
 
-        for (int i=0 ; i < livro.listaExemplares.size() ; i++) { //Busca nos exemplares o usuario em questão
+        for (int i=0 ; i < livro.listaExemplares.size() ; i++) { 
 
             //Caso de Sucesso da Devolução
             if (livro.listaExemplares.get(i).getUsuarioEmprestado() == usuario) {
@@ -167,16 +165,10 @@ public class Biblioteca implements Observando{
 
     }
 
-   
-
-    //Checar Livro pelo comando "liv"
-
     public void checarLivro(Livro livro) { //Seção 3.5.a
 
-        //Listar o título e o número de reservas
         System.out.println("Título: " + livro.getTitulo() + "\nNúmero de Reservas: " + livro.getNumReservas() + "\n");
 
-        //Listar o nome de todos reservantes
         for (int i=0 ; i < livro.reservantes.size() ; i++) {
             System.out.println("Nome reservante: " + livro.reservantes.get(i).getNome() + "\n");
         }
@@ -190,11 +182,11 @@ public class Biblioteca implements Observando{
 
     }
 
-    public void registrarObserver(Observadores ob) { //Seção 3.4 - Biblioteca deve buscar o Usuario e tratá-lo como Observers e passar para esse método do livro
+    public void registrarObserver(Observadores ob) { 
         observadores.add(ob);
     }
 
-    public void removerObserver(Observadores o) { //Seção 3.4 - Biblioteca deve buscar o Usuario e tratá-lo como Observers e passar para esse método do livro
+    public void removerObserver(Observadores o) { 
         int i = observadores.indexOf(o);
         if (i>=0) observadores.remove(o);
     }

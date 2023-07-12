@@ -15,7 +15,7 @@ public class Invoker {
        sis = Sistema.obterSistema();
     }
 
-    private String firstArg; //Comando em si, ex: emp, dev, res...
+    private String firstArg; //Comando. ex: emp, dev, res...
     private static String secondArg; // Primeiro argumento seguindo o comando
     private static String thirdArg; // Segundo argumento seguindo o comando
     Scanner scanner = new Scanner(System.in);

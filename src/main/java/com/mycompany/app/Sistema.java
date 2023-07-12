@@ -17,8 +17,6 @@ public class Sistema {
         if (instancia == null) instancia = new Sistema();
         return instancia;
     }
-
-    //private List<Biblioteca> listaLivros = new ArrayList<Biblioteca>();
     
     private static Biblioteca bib;
 
@@ -57,9 +55,8 @@ public class Sistema {
 
 
 
-    //Aplicando métodos das diferentes chamadas a serem usadas pelo Command
 
-    private Usuario findUser(int codUsuario) { //Acha qual o usuário dado seu código
+    private Usuario findUser(int codUsuario) { 
         Usuario usuarioDesejado=null;
         for (int i=0 ; i < listaUsuarios.size() ; i++) {
             if (listaUsuarios.get(i).getCodigo()==codUsuario) {
@@ -80,7 +77,6 @@ public class Sistema {
         Usuario usuario = findUser(codUsuario);
         Livro livro = bib.identificaLivroNaLista(codLivro);
         if (!(usuario==null) && !(livro==null)) bib.emprestar(usuario, livro); // !(x||y) === !x && !y
-        //Caso não cumpra, o programa devolve controle pro Invoker, note que o erro já foi enviado pelo findUser ou findLivro
     }
 
     public void devolucao(int codUsuario, int codLivro) { //3.2
@@ -90,7 +86,7 @@ public class Sistema {
     }
     
     public void observar(int codUsuario, int codLivro) { //3.4
-        UsuarioProfessor usuario = (UsuarioProfessor) findUser(codUsuario); //Aqui será Funcionarios mais pra frente
+        UsuarioProfessor usuario = (UsuarioProfessor) findUser(codUsuario); 
         Livro livro = bib.identificaLivroNaLista(codLivro);
         if (!(usuario==null) && !(livro==null)) bib.registrarObserver(usuario);
     }
@@ -109,13 +105,11 @@ public class Sistema {
     public void consultarNotificacao (int codUsuario) { //3.5.c
         Usuario usuario = findUser(codUsuario);
         if (!(usuario==null)) usuario.getNNotificaoes();
-        //Ativar aqui o método de usuário que vai retornar esse dado de quantas vezes ele foi notificado sobre algum livro que observa - descrito na seção 3.5.c do trabalho
     }
 
     public void consultarUsuario(int codUsuario) { //3.5.b
         Usuario usuario = findUser(codUsuario);
         if (!(usuario==null)) usuario.listarEmprestimosEReservas();
-        //Ativar aqui o método de usuario que vai fazer essa busca descrita na seção 3.5.b do enunciado do trabalho
     }
 
     public void sairDoSistema() { //3.6
